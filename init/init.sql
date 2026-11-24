@@ -1,0 +1,6 @@
+CREATE TABLE produits (id SERIAL PRIMARY KEY, nom TEXT NOT NULL, categorie TEXT NOT NULL, prix NUMERIC(10,2) NOT NULL);
+CREATE TABLE clients (id SERIAL PRIMARY KEY, nom TEXT NOT NULL, ville TEXT NOT NULL);
+CREATE TABLE commandes (id SERIAL PRIMARY KEY, date_commande TIMESTAMP NOT NULL DEFAULT now(), client_id INT NOT NULL REFERENCES clients(id), produit_id INT NOT NULL REFERENCES produits(id), quantite INT NOT NULL, boutique TEXT NOT NULL DEFAULT 'historique');
+INSERT INTO produits (nom, categorie, prix) VALUES ('Robe d''été','Vêtements',89.90),('Chemise en lin','Vêtements',65.00),('Sac en cuir','Accessoires',149.00),('Écharpe en soie','Accessoires',45.50),('Baskets blanches','Chaussures',120.00),('Sandales','Chaussures',55.00),('Parfum fleuri','Beauté',98.00),('Coffret maquillage','Beauté',75.00);
+INSERT INTO clients (nom, ville) VALUES ('Amira','Tunis'),('Youssef','Sfax'),('Salma','Sousse'),('Mehdi','Nabeul'),('Ines','Ariana'),('Karim','Bizerte'),('Nour','Monastir'),('Aziz','Tunis'),('Lina','Sfax'),('Omar','Sousse');
+INSERT INTO commandes (date_commande, client_id, produit_id, quantite, boutique) SELECT TIMESTAMP '2026-01-01' + random() * INTERVAL '318 days', 1 + floor(random()*10)::int, 1 + floor(random()*8)::int, 1 + floor(random()*3)::int, 'historique' FROM generate_series(1, 500);
